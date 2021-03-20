@@ -76,6 +76,7 @@ function removeTask(){
         url: '/tasks/' + myId
     }).then( function( response ){
         console.log( 'back from DELETE route with:', response );
+        getTasks();
     }).catch( function( error ){
         console.log( error );
         alert( 'not today amigo' );
