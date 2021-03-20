@@ -13,4 +13,8 @@ tasksRouter.get( '/', ( req, res )=>{
     })
 })
 
+tasksRouter.post( '/', ( req, res )=>{
+    console.log( 'add new task POST route:', req.body );
+})
+
 module.exports = tasksRouter;
