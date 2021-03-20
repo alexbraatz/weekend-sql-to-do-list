@@ -9,6 +9,7 @@ function startUp(){
 function clickHandlers(){
     $( '#addTaskBtn').on( 'click', addTask );
     $( '#viewTasks' ).on( 'click', '.deleteBtn', removeTask );
+    $( '#viewTasks' ).on( 'click', '.completeBtn', completeTask );
 }
 
 // GETs our tasks from db and then appends to DOM with showTasks
@@ -84,6 +85,15 @@ function removeTask(){
     })
 } // end removeTask
 
+function completeTask(){
+    const myId = $( this ).data( 'id' );
+    console.log( 'in completeTask', myId );
+}
+
+
+
+// function to clear all input boxes after successful POST route completion
 function clearInputs(){
     $( '#taskIn' ).val( '' );
-}
+} // end clearInputs
+
