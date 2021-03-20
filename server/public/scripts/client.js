@@ -45,6 +45,7 @@ function addTask(){
     }).then( function( response ){
         console.log( 'back from POST with:', response );
         getTasks();
+        clearInputs();
     }).catch( function( error ){
         alert( 'not today amigo' );
         console.log( error );
@@ -62,7 +63,7 @@ function showTasks( taskList ){
         <tr>
             <td>${task.newTask}</td>
             <td><button data-id="${task.id}" class="completeBtn">${task.complete}</button></td>
-            <td><button data-id="${task.id}" class="deleteBtn">${task.delete}</button></td>
+            <td><button data-id="${task.id}" class="deleteBtn">Remove</button></td>
         </tr>
         `);
     }
@@ -82,3 +83,7 @@ function removeTask(){
         alert( 'not today amigo' );
     })
 } // end removeTask
+
+function clearInputs(){
+    $( '#taskIn' ).val( '' );
+}
