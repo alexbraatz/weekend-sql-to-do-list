@@ -8,6 +8,7 @@ function startUp(){
 
 function clickHandlers(){
     $( '#addTaskBtn').on( 'click', addTask );
+    $( '#viewTasks' ).on( 'click', '.deleteBtn', removeTask );
 }
 
 // GETs our tasks from db and then appends to DOM with showTasks
@@ -48,9 +49,8 @@ function addTask(){
         alert( 'not today amigo' );
         console.log( error );
     }) // end AJAX call
-}
 
-
+} // end addTask
 
 // this accepts an array of our tasks objects and append values to dom
 function showTasks( taskList ){
@@ -61,9 +61,14 @@ function showTasks( taskList ){
         el.append(`
         <tr>
             <td>${task.newTask}</td>
-            <td>${task.complete}</td>
-            <td>${task.delete}</td>
+            <td><button data-id="${task.id}" class="completeBtn">${task.complete}</button></td>
+            <td><button data-id="${task.id}" class="deleteBtn">${task.delete}</button></td>
         </tr>
         `);
     }
 } // end showTasks
+
+function removeTask(){
+    const myId = $( this ).data( 'id' );
+    console.log( 'in removeTask', myId );
+} // end removeTask
