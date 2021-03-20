@@ -60,10 +60,15 @@ function showTasks( taskList ){
     let el = $( '#viewTasks' );
     el.empty();
     for( task of taskList ){
+        let reservedHTML = `<button data-id="${task.id}" class="completeBtn">${task.complete}</button>`;
+
+        if( task.complete ){
+            reservedHTML = "COMPLETED";
+        }
         el.append(`
         <tr>
             <td>${task.newTask}</td>
-            <td><button data-id="${task.id}" class="completeBtn">${task.complete}</button></td>
+            <td>${reservedHTML}</td>
             <td><button data-id="${task.id}" class="deleteBtn">Remove</button></td>
         </tr>
         `);
@@ -88,6 +93,16 @@ function removeTask(){
 function completeTask(){
     const myId = $( this ).data( 'id' );
     console.log( 'in completeTask', myId );
+    // AJAX PUT call to update db
+    $.ajax({
+        method: 'PUT',
+        url: '/tasks/' + myId
+    }).then( function( response ){
+        console.log( 'back from PUT route:', response );
+    }).catch( function ( error ){
+        console.log( error );
+        alert( 'not today amigo' );
+    })
 }
 
 

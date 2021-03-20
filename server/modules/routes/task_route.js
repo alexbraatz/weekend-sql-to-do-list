@@ -2,6 +2,7 @@ const express = require( 'express' );
 const tasksRouter = express.Router();
 const pool = require( '../pool' );
 
+// establish GET route
 tasksRouter.get( '/', ( req, res )=>{
     console.log( 'in our task GET route' );
     let queryString = `SELECT * FROM "tasks"`;
@@ -13,6 +14,7 @@ tasksRouter.get( '/', ( req, res )=>{
     })
 }) // end GET route
 
+// establish POST route
 tasksRouter.post( '/', ( req, res )=>{
     // req.body is the new task we'll be adding to the DB
     console.log( 'add new task POST route:', req.body );
@@ -29,6 +31,21 @@ tasksRouter.post( '/', ( req, res )=>{
 
 }) // end POST route
 
+// establish PUT route
+tasksRouter.put( '/:id', ( req, res )=>{
+    console.log( 'task PUT route:', req.params );
+    let queryString = `UPDATE "tasks" SET "complete"=true WHERE "id"=$1;`;
+    pool.query( queryString, [ req.params.id ] ).then( ( results )=>{
+        res.sendStatus( 200 );
+    }).catch( ( error )=>{
+        console.log( error );
+        res.sendStatus( 500 );
+    } )
+})
+
+// end PUT route
+
+// establish DELETE route
 tasksRouter.delete( '/:id', ( req, res )=>{
     console.log( 'task DELETE route:', req.params );
     let queryString = `DELETE FROM "tasks" WHERE "id"=$1`;
