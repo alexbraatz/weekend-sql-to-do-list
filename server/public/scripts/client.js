@@ -60,10 +60,10 @@ function showTasks( taskList ){
     let el = $( '#viewTasks' );
     el.empty();
     for( task of taskList ){
-        let reservedHTML = `<button data-id="${task.id}" class="completeBtn">${task.complete}</button>`;
+        let reservedHTML = `<button data-id="${task.id}" class="completeBtn">Not Yet</button>`;
 
         if( task.complete ){
-            reservedHTML = "COMPLETED";
+            reservedHTML = "Completed!";
         }
         el.append(`
         <tr>
@@ -99,6 +99,7 @@ function completeTask(){
         url: '/tasks/' + myId
     }).then( function( response ){
         console.log( 'back from PUT route:', response );
+        getTasks();
     }).catch( function ( error ){
         console.log( error );
         alert( 'not today amigo' );
