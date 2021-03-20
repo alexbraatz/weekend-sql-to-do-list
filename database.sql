@@ -1,4 +1,4 @@
--- db name: to_do --
+-- db name: weekend-to-do-app --
 
 CREATE TABLE "tasks"(
     "id" serial primary key,
