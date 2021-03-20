@@ -11,7 +11,7 @@ tasksRouter.get( '/', ( req, res )=>{
         console.log( 'not today amigo', error );
         res.sendStatus( 500 );
     })
-})
+}) // end GET route
 
 tasksRouter.post( '/', ( req, res )=>{
     // req.body is the new task we'll be adding to the DB
@@ -27,6 +27,17 @@ tasksRouter.post( '/', ( req, res )=>{
         res.sendStatus( 500 );
     })
 
-})
+}) // end POST route
+
+tasksRouter.delete( '/:id', ( req, res )=>{
+    console.log( 'task DELETE route:', req.params );
+    let queryString = `DELETE FROM "tasks" WHERE "id"=$1`;
+    pool.query( queryString, [ req.params.id ] ).then( ( results )=>{
+        res.sendStatus( 200 );
+    }).catch( ( error )=>{
+        console.log( error );
+        res.sendStatus( 500 );
+    })
+}) // end DELETE route
 
 module.exports = tasksRouter;

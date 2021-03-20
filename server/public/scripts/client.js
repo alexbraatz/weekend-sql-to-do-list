@@ -71,4 +71,13 @@ function showTasks( taskList ){
 function removeTask(){
     const myId = $( this ).data( 'id' );
     console.log( 'in removeTask', myId );
+    $.ajax({
+        method: 'DELETE',
+        url: '/tasks/' + myId
+    }).then( function( response ){
+        console.log( 'back from DELETE route with:', response );
+    }).catch( function( error ){
+        console.log( error );
+        alert( 'not today amigo' );
+    })
 } // end removeTask
