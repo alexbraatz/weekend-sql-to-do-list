@@ -43,6 +43,7 @@ function addTask(){
         data: taskToSend
     }).then( function( response ){
         console.log( 'back from POST with:', response );
+        getTasks();
     }).catch( function( error ){
         alert( 'not today amigo' );
         console.log( error );
