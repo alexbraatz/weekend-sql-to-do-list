@@ -4,35 +4,31 @@ $( document ).ready( startUp )
 function startUp(){
     clickHandlers();
     getTasks();
-}
+} // end startUp
 
+// handles all of our button clicks on homepage
 function clickHandlers(){
     $( '#addTaskBtn').on( 'click', addTask );
     $( '#viewTasks' ).on( 'click', '.deleteBtn', removeTask );
     $( '#viewTasks' ).on( 'click', '.completeBtn', completeTask );
-}
+} // end clickHandlers
 
-// GETs our tasks from db and then appends to DOM with showTasks
+// getTasks will GET our tasks from db and then append to DOM with showTasks
 function getTasks(){
-    console.log( 'in displayTasks' );
     // make an AJAX call to server. the server then connects to our route 'task_route' using pool to talk to our database
     $.ajax({
         method: 'GET',
         url: '/tasks'
     }).then( function( response ){
-        //console.log( 'back from GET route with:', response );
         showTasks( response );
     }).catch( function( error ){
-        console.log( error );
         alert( 'not today amigo!' );
     });
 } // end getTasks
 
-// POST our newly added task to the database
+// addTask will POST our newly added task to the database. Once successful we run getTasks and clearInputs
 function addTask(){
-    console.log( 'in addTask' );
-
-    // get user input & package into object with default false values for a newTask
+    // get user input & package into object with default false boolean values for a newTask as taskToSend
     let taskToSend = {
         newTask: $( '#taskIn' ).val(),
         complete: false,
@@ -44,23 +40,22 @@ function addTask(){
         url: '/tasks',
         data: taskToSend
     }).then( function( response ){
-        console.log( 'back from POST with:', response );
         getTasks();
         clearInputs();
     }).catch( function( error ){
         alert( 'not today amigo' );
-        console.log( error );
     }) // end AJAX call
 
 } // end addTask
 
-// this accepts an array of our tasks objects and append values to dom
+// showTasks accepts an array of our tasks objects and append values to DOM
 function showTasks( taskList ){
-    console.log( 'in showTasks' );
+    // jquery selects our viewTasks id to dynamically append user inputs to DOM
     let el = $( '#viewTasks' );
     el.empty();
+    // loop through each task and append to DOM
     for( task of taskList ){
-        let reservedHTML = `<button data-id="${task.id}" class="completeBtn">Not Yet</button>`;
+        let reservedHTML = `<button data-id="${task.id}" class="completeBtn">Done!</button>`;
 
         if( task.complete ){
             reservedHTML = "Completed!";
@@ -75,40 +70,35 @@ function showTasks( taskList ){
     }
 } // end showTasks
 
+// removeTasks requests a DELETE route 
 function removeTask(){
+    // catch the id from the table row in our db of the object we'd like to delete
     const myId = $( this ).data( 'id' );
-    console.log( 'in removeTask', myId );
     $.ajax({
         method: 'DELETE',
         url: '/tasks/' + myId
     }).then( function( response ){
-        console.log( 'back from DELETE route with:', response );
         getTasks();
     }).catch( function( error ){
-        console.log( error );
         alert( 'not today amigo' );
     })
 } // end removeTask
 
+// completeTasks makes a PUT request to update our 'Done!' button to display 'Completed!' 
 function completeTask(){
     const myId = $( this ).data( 'id' );
-    console.log( 'in completeTask', myId );
     // AJAX PUT call to update db
     $.ajax({
         method: 'PUT',
         url: '/tasks/' + myId
     }).then( function( response ){
-        console.log( 'back from PUT route:', response );
         getTasks();
     }).catch( function ( error ){
-        console.log( error );
         alert( 'not today amigo' );
     })
 }
 
-
-
-// function to clear all input boxes after successful POST route completion
+// clearInputs will clear all input text boxes 
 function clearInputs(){
     $( '#taskIn' ).val( '' );
 } // end clearInputs
