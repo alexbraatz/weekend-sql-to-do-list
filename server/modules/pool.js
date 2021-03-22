@@ -9,10 +9,10 @@ let config = {};
 //
 // Heroku gives us a process.env.DATABASE_URL variable,
 // so if that's set, we know we're on heroku.
-if ( process.env.weekend-to-do-app){
+if ( process.env.DATABASE_URL){
     config = {
         // We use the DATABASE_URL from Heroku to connect to our DB
-        connectionString: process.env.weekend-to-do-app,
+        connectionString: process.env.DATABASE_URL,
         // Heroku also requires this special `ssl` config
         ssl: { rejectUnauthorized: false },
     };
