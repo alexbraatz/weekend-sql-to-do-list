@@ -44,8 +44,8 @@ pool.on( 'connect', () =>{
 // it contains if a backend error or network partition happens
 pool.on( 'error', ( err )=>{
     console.log( 'Unexpected error on idle client', error );
-    process.exit(-1;)
-})
+    process.exit(-1);
+});
 
 // export our pool aka create a train route for 10 to and from database
 module.exports = pool;
